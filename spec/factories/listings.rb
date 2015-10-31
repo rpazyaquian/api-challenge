@@ -3,7 +3,7 @@ FactoryGirl.define do
     uuid { Faker::Bitcoin.address }
     active true
     name { Faker::Name.name }
-    email { Faker::Email.email }
+    email { Faker::Internet.email }
     description { Faker::Lorem.sentence }
     address { Faker::Address.street_address }
     city { Faker::Address.city }
