@@ -11,10 +11,16 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151031213415) do
+ActiveRecord::Schema.define(version: 20151031213604) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "images", force: :cascade do |t|
+    t.string  "url"
+    t.integer "photo_id"
+    t.index ["photo_id"], name: "index_images_on_photo_id", using: :btree
+  end
 
   create_table "listings", force: :cascade do |t|
     t.string   "uuid"
@@ -34,8 +40,14 @@ ActiveRecord::Schema.define(version: 20151031213415) do
   end
 
   create_table "photos", force: :cascade do |t|
-    t.integer "interest_point_id"
-    t.string  "name"
+    t.integer  "interest_point_id"
+    t.string   "name"
+    t.datetime "created_at",        null: false
+    t.datetime "updated_at",        null: false
+    t.integer  "listing_id"
+    t.index ["listing_id"], name: "index_photos_on_listing_id", using: :btree
   end
 
+  add_foreign_key "images", "photos"
+  add_foreign_key "photos", "listings"
 end
