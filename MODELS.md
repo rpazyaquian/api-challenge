@@ -26,6 +26,10 @@
   - has-a `Thumb`
 - Thumb
   - url - string
+- TagAssociation
+  - belongs-to `Listing`
+  - belongs-to `Tag`
+  - stands for a one-to-many association for the two
 - Tag
   - label - string (it's literally just a tag)
 
