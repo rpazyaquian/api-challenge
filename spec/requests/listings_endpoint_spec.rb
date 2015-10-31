@@ -16,7 +16,7 @@ RSpec.describe "Listings endpoint", :type => :request do
         FactoryGirl.attributes_for(:listing)
       end
       it "creates a new listing" do |variable|
-        post "/listings", params: listing_attrs
+        post "/listings", params: { listing: listing_attrs }
         expect(response).to be_success
       end
     end
