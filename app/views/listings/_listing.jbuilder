@@ -1,0 +1,1 @@
+json.(listing, :uuid, :active, :name, :email, :description, :address, :city, :state, :zipcode, :lat, :lng, :phone_number, :updated_at)
