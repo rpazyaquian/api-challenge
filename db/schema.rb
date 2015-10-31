@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151031213604) do
+ActiveRecord::Schema.define(version: 20151031214651) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -48,6 +48,26 @@ ActiveRecord::Schema.define(version: 20151031213604) do
     t.index ["listing_id"], name: "index_photos_on_listing_id", using: :btree
   end
 
+  create_table "tag_associations", force: :cascade do |t|
+    t.integer "listing_id"
+    t.integer "tag_id"
+    t.index ["listing_id"], name: "index_tag_associations_on_listing_id", using: :btree
+    t.index ["tag_id"], name: "index_tag_associations_on_tag_id", using: :btree
+  end
+
+  create_table "tags", force: :cascade do |t|
+    t.string "label"
+  end
+
+  create_table "thumbs", force: :cascade do |t|
+    t.string  "url"
+    t.integer "image_id"
+    t.index ["image_id"], name: "index_thumbs_on_image_id", using: :btree
+  end
+
   add_foreign_key "images", "photos"
   add_foreign_key "photos", "listings"
+  add_foreign_key "tag_associations", "listings"
+  add_foreign_key "tag_associations", "tags"
+  add_foreign_key "thumbs", "images"
 end
