@@ -26,6 +26,7 @@ gem 'active_model_serializers', '~> 0.10.0.rc2'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
+  gem 'pry'
   gem 'pry-rails'
   gem 'rspec-rails'
   gem 'byebug'

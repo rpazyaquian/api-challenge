@@ -172,6 +172,7 @@ DEPENDENCIES
   arel!
   byebug
   pg (~> 0.18)
+  pry
   pry-rails
   rack!
   rails!
@@ -181,3 +182,6 @@ DEPENDENCIES
   sprockets!
   sprockets-rails!
   tzinfo-data
+
+BUNDLED WITH
+   1.10.6
