@@ -26,10 +26,6 @@
   - has-a `Thumb`
 - Thumb
   - url - string
-- TagList
-  - belongs-to `Listing`
-  - has-many `Tag`s
-  - maybe exposes a convenience serialization method?
 - Tag
   - label - string (it's literally just a tag)
 
