@@ -21,4 +21,23 @@ RSpec.describe "Listings endpoint", :type => :request do
       end
     end
   end
+
+  describe "prompt requirements" do
+    context "/listing/index" do
+      describe "GET" do
+        it "returns a specific array of listings"
+      end
+      describe "POST" do
+        it "adds a listing to the array of listings"
+      end
+    end
+    context "/listing/:listing_id" do
+      describe "GET" do
+        it "returns a specific listing"
+      end
+      describe "PUT" do
+        it "updates a specific listing"
+      end
+    end
+  end
 end
