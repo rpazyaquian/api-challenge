@@ -121,9 +121,9 @@ RSpec.describe "Listings endpoint", :type => :request do
           tag_list = listing[:tag_list]
 
           expect(listing).to include(listing_attrs)
-          expect(photo).to include(photo_attrs)
-          expect(image).to include(image_attrs)
-          expect(thumb).to include(thumb_attrs)
+          expect(photo).to include(photo_attrs.except(:listing_id))
+          expect(image).to include(image_attrs.except(:photo_id))
+          expect(thumb).to include(thumb_attrs.except(:image_id))
           expect(tag_list).to match(["tag1", "tag2", "tag3"])
         end
       end
