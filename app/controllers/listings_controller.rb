@@ -1,6 +1,5 @@
 class ListingsController < ApplicationController
   def index
-    binding.pry
     @listings = Listing.includes([{photos: [{images: :thumbs}]}, :tags]).all
   end
   def create
