@@ -5,6 +5,13 @@ class ListingsController < ApplicationController
   def create
     @listing = Listing.create(listing_params)
   end
+  def update
+    @listing = Listing.find(listing_params[:uuid])
+    @listing.update(listing_params)
+  end
+  def show
+    @listing = Listing.find(listing_params[:uuid])
+  end
 
   private
 
