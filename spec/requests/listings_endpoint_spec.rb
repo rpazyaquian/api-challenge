@@ -128,15 +128,33 @@ RSpec.describe "Listings endpoint", :type => :request do
         end
       end
       describe "POST" do
-        it "adds a listing to the array of listings"
+        let(:new_listing_attrs) do
+          FactoryGirl.attributes_for(:listing)
+        end
+        it "adds a listing to the array of listings" do
+          post "/listings", listing: new_listing_attrs
+          json_response = JSON.parse(response.body)
+
+          expect(json_response.length).to eq 2
+        end
       end
     end
     context "/listing/:listing_id" do
       describe "GET" do
-        it "returns a specific listing"
+        it "returns a specific listing" do
+          get "/listings/#{listing.id}"
+          listing = JSON.parse(response.body).deep_symbolize_keys
+
+          expect(listing).to include(listing_attrs)
+        end
       end
       describe "PUT" do
-        it "updates a specific listing"
+        it "updates a specific listing" do
+          post "/listings/#{listing.id}", name: "hello world"
+          listing = JSON.parse(response.body).deep_symbolize_keys
+
+          expect(listing[:name]).to be "hello world"
+        end
       end
     end
   end
