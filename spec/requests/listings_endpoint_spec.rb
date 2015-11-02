@@ -115,15 +115,15 @@ RSpec.describe "Listings endpoint", :type => :request do
           json_response = JSON.parse(response.body)
 
           listing = json_response[0].deep_symbolize_keys
-          photo = listing[:photo]
-          image = photo[:image]
-          thumb = image[:thumb]
+          photos = listing[:photos]
+          images = photos[0][:images]
+          thumbs = images[0][:thumbs]
           tag_list = listing[:tag_list]
 
           expect(listing).to include(listing_attrs)
-          expect(photo).to include(photo_attrs.except(:listing_id))
-          expect(image).to include(image_attrs.except(:photo_id))
-          expect(thumb).to include(thumb_attrs.except(:image_id))
+          expect(photos[0]).to include(photo_attrs.except(:listing_id))
+          expect(images[0]).to include(image_attrs.except(:photo_id))
+          expect(thumbs[0]).to include(thumb_attrs.except(:image_id))
           expect(tag_list).to match(["tag1", "tag2", "tag3"])
         end
       end
@@ -131,8 +131,11 @@ RSpec.describe "Listings endpoint", :type => :request do
         let(:new_listing_attrs) do
           FactoryGirl.attributes_for(:listing)
         end
+        before(:each) do
+          post "/listings", params: {listing: new_listing_attrs}
+        end
         it "adds a listing to the array of listings" do
-          post "/listings", listing: new_listing_attrs
+          get "/listings"
           json_response = JSON.parse(response.body)
 
           expect(json_response.length).to eq 2
@@ -150,7 +153,7 @@ RSpec.describe "Listings endpoint", :type => :request do
       end
       describe "PUT" do
         it "updates a specific listing" do
-          post "/listings/#{listing.id}", name: "hello world"
+          post "/listings/#{listing.id}", params: { name: "hello world" }
           listing = JSON.parse(response.body).deep_symbolize_keys
 
           expect(listing[:name]).to be "hello world"
