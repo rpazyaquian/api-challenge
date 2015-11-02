@@ -28,8 +28,8 @@ RSpec.describe "Listings endpoint", :type => :request do
     # with one Photo, which has one Image, which has one Thumb,
     # and three tags, in an array...
 
-    let!(:listing) do
-      listing_attrs = {
+    let(:listing_attrs) do
+      {
         uuid: "BoxStore123",
         active: true,
         name: "NewBoxStoreBoston",
@@ -43,32 +43,44 @@ RSpec.describe "Listings endpoint", :type => :request do
         lng: "-74.0059731",
         phone_number: "6179557522"
       }
+    end
+
+    let!(:listing) do
       Listing.create(listing_attrs)
     end
 
-    let!(:photo) do
-      photo_attrs = {
+    let(:photo_attrs) do
+      {
         uuid: "902348586",
         interest_point_id: 850924880,
         name: "rsz_facefull.png",
         listing_id: listing.id
       }
+    end
+
+    let!(:photo) do
       Photo.create(photo_attrs)
     end
 
-    let!(:image) do
-      image_attrs = {
+    let(:image_attrs) do
+      {
         url: "/uploads/photo/image/902348586/rsz_facefull.png",
         photo_id: photo.id
       }
+    end
+
+    let!(:image) do
       Image.create(image_attrs)
     end
 
-    let!(:thumb) do
-      thumb_attrs = {
+    let(:thumb_attrs) do
+      {
         url: "/uploads/photo/image/902348586/thumb_rsz_facefull.png",
         image_id: image.id
       }
+    end
+
+    let!(:thumb) do
       Thumb.create(thumb_attrs)
     end
 
@@ -103,25 +115,16 @@ RSpec.describe "Listings endpoint", :type => :request do
           json_response = JSON.parse(response.body)
 
           listing = json_response[0].deep_symbolize_keys
-          # photo = listing[:photo]
-          # image = photo[:image]
-          # thumb = image[:thumb]
-          # tag_list = listing[:tag_list]
+          photo = listing[:photo]
+          image = photo[:image]
+          thumb = image[:thumb]
+          tag_list = listing[:tag_list]
 
-          expect(listing.to_options).to include({
-            uuid: "BoxStore123",
-            active: true,
-            name: "NewBoxStoreBoston",
-            email: "boxstore@boxstore.net",
-            description: "lots of information goes here!",
-            address: "524 Harrison Ave",
-            city: "Boston",
-            state: "MA",
-            zipcode: "23462",
-            lat: "40.7143528",
-            lng: "-74.0059731",
-            phone_number: "6179557522"
-          })
+          expect(listing).to include(listing_attrs)
+          expect(photo).to include(photo_attrs)
+          expect(image).to include(image_attrs)
+          expect(thumb).to include(thumb_attrs)
+          expect(tag_list).to match(["tag1", "tag2", "tag3"])
         end
       end
       describe "POST" do
