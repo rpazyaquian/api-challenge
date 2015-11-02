@@ -23,11 +23,6 @@ RSpec.describe "Listings endpoint", :type => :request do
   end
 
   describe "prompt requirements" do
-
-    # Given that we have one Listing,
-    # with one Photo, which has one Image, which has one Thumb,
-    # and three tags, in an array...
-
     let(:listing_attrs) do
       {
         uuid: "BoxStore123",
@@ -146,17 +141,17 @@ RSpec.describe "Listings endpoint", :type => :request do
       describe "GET" do
         it "returns a specific listing" do
           get "/listings/#{listing.id}"
-          listing = JSON.parse(response.body).deep_symbolize_keys
+          json_response = JSON.parse(response.body).deep_symbolize_keys
 
-          expect(listing).to include(listing_attrs)
+          expect(json_response).to include(listing_attrs)
         end
       end
       describe "PUT" do
         it "updates a specific listing" do
-          post "/listings/#{listing.id}", params: { name: "hello world" }
+          put "/listings/#{listing.id}", params: { listing: {name: "hello world"} }
           listing = JSON.parse(response.body).deep_symbolize_keys
 
-          expect(listing[:name]).to be "hello world"
+          expect(listing[:name]).to eq "hello world"
         end
       end
     end
